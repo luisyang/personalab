@@ -1,0 +1,110 @@
+RunByHand:
+(c03) RandomBounds
+(c09) InfiniteRecursion
+(c09) ListPerformance
+(c09) MapPerformance
+(c09) SetPerformance
+(c11) Echo
+(c13) Applet1c
+(c13) Applet1d
+(c13) BangBean2
+(c13) BangBeanTest
+(c13) BeanDumper
+(c13) BorderLayout1
+(c13) Borders
+(c13) Box1
+(c13) Box2
+(c13) Box3
+(c13) Box4
+(c13) BoxLayout1
+(c13) Button1
+(c13) Button2
+(c13) Button2b
+(c13) ButtonGroups
+(c13) Buttons
+(c13) CheckBoxes
+(c13) ColorBoxes
+(c13) ColorBoxes2
+(c13) ComboBoxes
+(c13) CutAndPaste
+(c13) Dialogs
+(c13) DynamicEvents
+(c13) Faces
+(c13) FileChooserTest
+(c13) FlowLayout1
+(c13) GridLayout1
+(c13) HTMLButton
+(c13) JScrollPanes
+(c13) JTableDemo
+(c13) List
+(c13) LookAndFeel
+(c13) Menus
+(c13) MessageBoxes
+(c13) Popup
+(c13) Progress
+(c13) RadioButtons
+(c13) Separation
+(c13) ShowAddListeners
+(c13) SimpleMenus
+(c13) SineWave
+(c13) TabbedPane1
+(c13) TextArea
+(c13) TextFields
+(c13) TextPane
+(c13) TicTacToe
+(c13) TrackEvent
+(c13) Trees
+(c14) Blocking
+(c14) Interrupt
+(c14) ResponsiveUI
+(c14) Suspend
+(c15) Fetcher
+(c15) JabberClient
+(c15) JabberServer
+(c15) MultiJabberClient
+(c15) MultiJabberServer
+(c15) ShowHTML
+(c15) WhoAmI
+(c15\jdbc) VLookup
+(X1) EmailLogger
+(com\bruceeckel\tools) CheckVersion
+
+ThrowsException:
+(c03) MathOps
+(c07) RTTI
+(c08) MultiImplementation
+(c09) CatsAndDogs
+(c09) FailFast
+(c09) ReadOnly
+(c09) Unsupported
+(c10) LostMessage
+(c10) NeverCaught
+(c10) RethrowNew
+(c11\xfiles) ThawAlien
+(X1) Assert1
+(X1) Assert2
+(X1) LoaderAssertions
+(X1) SimpleDebugging
+
+Arguments:
+(c11) ClassScanner {classnames -a}
+(c11) GZIPcompress {GZIPcompress.java}
+(c11) MakeDirectories {MakeDirectoriesTest}
+(c11) WordCount {WordCount.java}
+(c11) ZipCompress {ZipCompress.java}
+(c15) WhoAmI {www.google.com}
+
+JVM Arguments:
+(X1) Assert1 {-ea}
+(X1) Assert2 {-ea}
+(X1) ConfigureLogging {-Djava.util.logging.config.file=log.prop}
+
+Broken:
+(c03) ListCharacters
+(c11) Redirecting
+(c15\jdbc) CIDCreateTables
+(c15\jdbc) LoadDB
+(c15\jdbc) Lookup
+(c15\jdbc) VLookup
+(c15\rmi) DisplayPerfectTime
+(c15\rmi) PerfectTime

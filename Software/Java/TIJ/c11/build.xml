@@ -1,0 +1,355 @@
+<?xml version="1.0"?>
+
+
+<project name="Thinking in Java (c11)" default="c11.run" basedir=".">
+
+  <description>
+  build.xml for c11 of "Thinking in Java, 3rd Edition"
+  by Bruce Eckel
+  Available at http://www.MindView.net
+  See copyright notice in CopyRight.txt
+
+  Ant must be downloaded from:
+  http://jakarta.apache.org/ant
+
+  Options:
+  ant
+    compiles and runs all examples
+  ant c11.build
+    compiles but does not run examples
+  ant clean
+    removes old class files
+  </description>
+
+  <target name="JDK.version.check" unless="JDK.version.ok" depends="c11.check">
+    <javac
+      includes="CheckVersion.java"
+      srcdir="${basedir}/../com/bruceeckel/tools/"
+      classpath="${basedir}/.."
+    />
+    <java
+      taskname="CheckVersion"
+      classname="com.bruceeckel.tools.CheckVersion"
+      classpath="${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+    <property name="JDK.version.ok" value="true"/>
+  </target>
+
+  <!-- check the JDK version and for any jar dependencies -->
+  <target name="c11.check">
+    <condition property="junit.jar.missing">
+      <not>
+        <available file="${java.ext.dirs}/junit.jar"/>
+      </not>
+    </condition>
+    <antcall target="junit.jar.check"/>
+  </target>
+
+  <!-- insure that junit.jar exists. -->
+  <target name="junit.jar.check" if="junit.jar.missing">
+    <echo file="${basedir}/../errors.txt" append="true">c11 requires junit.jar
+    Please place this jar in your extensions
+    directory: ${java.ext.dirs}
+    
+    </echo>
+    <echo message="junit.jar is missing.  See errors.txt"/>
+    <sleep seconds="5"/>
+  </target>
+
+  <!-- build all dependencies and check to see if tests are up to date -->
+  <target name="c11.prepare">
+    <uptodate property="force.run">
+      <srcfiles dir= "${basedir}" includes="**/*Output.txt"/>
+      <mapper type="glob" from="*Output.txt" to="*.class"/>
+    </uptodate>
+    <ant
+      antfile="${basedir}/../com/build.xml"
+      target="com.build"
+      dir="${basedir}/../com"
+      output="${basedir}/../com/log.txt"
+    />
+  </target>
+
+  <!-- set of files to compile (exclude files that lack necessary jars) -->
+  <patternset id="compile.sources">
+    <include name="**/*.java"/>
+    <exclude name="**/Redirecting.java" if="junit.jar.missing"/>
+  </patternset>
+
+  <!-- build all classes in this directory -->
+  <target name="c11.build" depends="JDK.version.check,c11.prepare">
+    <javac
+      srcdir="${basedir}"
+      classpath="${basedir}/.."
+      source="1.4"
+    >
+      <patternset refid="compile.sources"/>
+    </javac>
+  </target>
+
+  <!-- force all tests to be run -->
+  <target name="force">
+    <property name="force.run" value="true"/>
+    <antcall target="c11.run"/>
+  </target>
+
+  <!-- run all untested examples in this directory -->
+  <target name="c11.run" depends="c11.build" if="force.run">
+    <antcall target="AnalyzeSentence.run"/>
+    <antcall target="Blip3.run"/>
+    <antcall target="Blips.run"/>
+    <antcall target="CADState.run"/>
+    <antcall target="ChangeSystemOut.run"/>
+    <antcall target="ClassScanner.run"/>
+    <antcall target="DirList.run"/>
+    <antcall target="DirList2.run"/>
+    <antcall target="DirList3.run"/>
+    <antcall target="FreezeAlien.run"/>
+    <antcall target="GZIPcompress.run"/>
+    <antcall target="IOStreamDemo.run"/>
+    <antcall target="Logon.run"/>
+    <antcall target="MakeDirectories.run"/>
+    <antcall target="MyWorld.run"/>
+    <antcall target="SerialCtl.run"/>
+    <antcall target="TestEOF.run"/>
+    <antcall target="WordCount.run"/>
+    <antcall target="Worm.run"/>
+    <antcall target="ZipCompress.run"/>
+    <antcall target="ThawAlien.run"/>
+    <echo message="* Echo must be run by hand. *"/>
+  </target>
+
+  <target name="AnalyzeSentence.run">
+    <java
+      taskname="AnalyzeSentence"
+      classname="AnalyzeSentence"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="Blip3.run">
+    <java
+      taskname="Blip3"
+      classname="Blip3"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="Blips.run">
+    <java
+      taskname="Blips"
+      classname="Blips"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="CADState.run">
+    <java
+      taskname="CADState"
+      classname="c11.CADState"
+      classpath="${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="ChangeSystemOut.run">
+    <java
+      taskname="ChangeSystemOut"
+      classname="ChangeSystemOut"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="ClassScanner.run">
+    <java
+      taskname="ClassScanner"
+      classname="ClassScanner"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    >
+      <arg value="classnames -a"/>
+    </java>
+  </target>
+
+  <target name="DirList.run">
+    <java
+      taskname="DirList"
+      classname="DirList"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="DirList2.run">
+    <java
+      taskname="DirList2"
+      classname="DirList2"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="DirList3.run">
+    <java
+      taskname="DirList3"
+      classname="DirList3"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="FreezeAlien.run">
+    <java
+      taskname="FreezeAlien"
+      classname="FreezeAlien"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="GZIPcompress.run">
+    <java
+      taskname="GZIPcompress"
+      classname="GZIPcompress"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    >
+      <arg value="GZIPcompress.java"/>
+    </java>
+  </target>
+
+  <target name="IOStreamDemo.run">
+    <java
+      taskname="IOStreamDemo"
+      classname="IOStreamDemo"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="Logon.run">
+    <java
+      taskname="Logon"
+      classname="Logon"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="MakeDirectories.run">
+    <java
+      taskname="MakeDirectories"
+      classname="MakeDirectories"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    >
+      <arg value="MakeDirectoriesTest"/>
+    </java>
+  </target>
+
+  <target name="MyWorld.run">
+    <java
+      taskname="MyWorld"
+      classname="c11.MyWorld"
+      classpath="${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="SerialCtl.run">
+    <java
+      taskname="SerialCtl"
+      classname="SerialCtl"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="TestEOF.run">
+    <java
+      taskname="TestEOF"
+      classname="TestEOF"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="WordCount.run">
+    <java
+      taskname="WordCount"
+      classname="c11.WordCount"
+      classpath="${basedir}/.."
+      fork="true"
+      failonerror="true"
+    >
+      <arg value="WordCount.java"/>
+    </java>
+  </target>
+
+  <target name="Worm.run">
+    <java
+      taskname="Worm"
+      classname="Worm"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+  </target>
+
+  <target name="ZipCompress.run">
+    <java
+      taskname="ZipCompress"
+      classname="ZipCompress"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="true"
+    >
+      <arg value="ZipCompress.java"/>
+    </java>
+  </target>
+
+  <target name="ThawAlien.run">
+    <java
+      taskname="ThawAlien"
+      classname="ThawAlien"
+      classpath="${basedir};${basedir}/.."
+      fork="true"
+      failonerror="false"
+    />
+    <echo message="* Exception was expected *"/>
+  </target>
+
+  <!-- delete all class files -->
+  <target name="clean" description="Removes all old class files">
+    <delete>
+      <fileset dir="${basedir}" includes="**/*.class"/>
+      <fileset dir="${basedir}" includes="**/*Output.txt"/>
+      <fileset dir="${basedir}" includes="**/log.txt"/>
+    </delete>
+    <echo message="clean successful"/>
+  </target>
+
+</project>

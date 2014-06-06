@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jboss>
+  <enterprise-beans>
+    <entity>
+      <ejb-name>Movie</ejb-name>
+      <jndi-name>javatheater/Movie</jndi-name>
+    </entity>
+  </enterprise-beans>
+</jboss>

@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+
+
+<project name="Thinking in Java (c15)" default="c15.run" basedir=".">
+
+  <description>
+  build.xml for c15 of "Thinking in Java, 3rd Edition"
+  by Bruce Eckel
+  Available at http://www.MindView.net
+  See copyright notice in CopyRight.txt
+
+  Ant must be downloaded from:
+  http://jakarta.apache.org/ant
+
+  Options:
+  ant
+    compiles and runs all examples
+  ant c15.build
+    compiles but does not run examples
+  ant clean
+    removes old class files
+  </description>
+
+  <target name="JDK.version.check" unless="JDK.version.ok" depends="c15.check">
+    <javac
+      includes="CheckVersion.java"
+      srcdir="${basedir}/../com/bruceeckel/tools/"
+      classpath="${basedir}/.."
+    />
+    <java
+      taskname="CheckVersion"
+      classname="com.bruceeckel.tools.CheckVersion"
+      classpath="${basedir}/.."
+      fork="true"
+      failonerror="true"
+    />
+    <property name="JDK.version.ok" value="true"/>
+  </target>
+
+  <!-- check the JDK version and for any jar dependencies -->
+  <target name="c15.check">
+    <condition property="j2ee.jar.missing">
+      <not>
+        <available file="${java.ext.dirs}/j2ee.jar"/>
+      </not>
+    </condition>
+    <antcall target="j2ee.jar.check"/>
+  </target>
+
+  <!-- insure that j2ee.jar exists. -->
+  <target name="j2ee.jar.check" if="j2ee.jar.missing">
+    <echo file="${basedir}/../errors.txt" append="true">c15 requires j2ee.jar
+    Please place this jar in your extensions
+    directory: ${java.ext.dirs}
+    
+    </echo>
+    <echo message="j2ee.jar is missing.  See errors.txt"/>
+    <sleep seconds="5"/>
+  </target>
+
+  <!-- build all dependencies and check to see if tests are up to date -->
+  <target name="c15.prepare">
+    <uptodate property="force.run">
+      <srcfiles dir= "${basedir}" includes="**/*Output.txt"/>
+      <mapper type="glob" from="*Output.txt" to="*.class"/>
+    </uptodate>
+    <ant
+      antfile="${basedir}/../com/build.xml"
+      target="com.build"
+      dir="${basedir}/../com"
+      output="${basedir}/../com/log.txt"
+    />
+  </target>
+
+  <!-- set of files to compile (exclude files that lack necessary jars) -->
+  <patternset id="compile.sources">
+    <include name="**/*.java"/>
+    <exclude name="**/PerfectTime.java" if="j2ee.jar.missing"/>
+    <exclude name="**/SessionPeek.java" if="j2ee.jar.missing"/>
+    <exclude name="**/EchoForm.java" if="j2ee.jar.missing"/>
+    <exclude name="**/PerfectTimeHome.java" if="j2ee.jar.missing"/>
+    <exclude name="**/PerfectTimeClient.java" if="j2ee.jar.missing"/>
+    <exclude name="**/PerfectTimeBean.java" if="j2ee.jar.missing"/>
+    <exclude name="**/ThreadServlet.java" if="j2ee.jar.missing"/>
+    <exclude name="**/ServletsRule.java" if="j2ee.jar.missing"/>
+  </patternset>
+
+  <!-- build all classes in this directory -->
+  <target name="c15.build" depends="JDK.version.check,c15.prepare">
+    <javac
+      srcdir="${basedir}"
+      classpath="${basedir}/.."
+      source="1.4"
+    >
+      <patternset refid="compile.sources"/>
+    </javac>
+  </target>
+
+  <!-- force all tests to be run -->
+  <target name="force">
+    <property name="force.run" value="true"/>
+    <antcall target="c15.run"/>
+  </target>
+
+  <!-- run all untested examples in this directory -->
+  <target name="c15.run" depends="c15.build" if="force.run">
+    <echo message="* Fetcher must be run by hand. *"/>
+    <echo message="* JabberClient must be run by hand. *"/>
+    <echo message="* JabberServer must be run by hand. *"/>
+    <echo message="* MultiJabberClient must be run by hand. *"/>
+    <echo message="* MultiJabberServer must be run by hand. *"/>
+    <echo message="* ShowHTML must be run by hand. *"/>
+    <echo message="* WhoAmI must be run by hand. *"/>
+    <echo message="* VLookup must be run by hand. *"/>
+  </target>
+
+  <!-- delete all class files -->
+  <target name="clean" description="Removes all old class files">
+    <delete>
+      <fileset dir="${basedir}" includes="**/*.class"/>
+      <fileset dir="${basedir}" includes="**/*Output.txt"/>
+      <fileset dir="${basedir}" includes="**/log.txt"/>
+    </delete>
+    <echo message="clean successful"/>
+  </target>
+
+</project>

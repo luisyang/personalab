@@ -1,0 +1,290 @@
+<project name="javatheater" default="help"  basedir=".">
+
+  <!-- Name of the ejb-jar file that will contain our EJBs -->
+  <property name="ejb-jar.filename" value="javatheater.jar"/>
+
+  <!-- Name of the jar file that client applications will use to access our EJBs-->
+  <property name="client-jar.filename" value="javatheater-client.jar"/>
+
+  <!-- Directories for the source code -->
+  <property name="source.dir" value="src"/>
+  <property name="ejb.source.dir" value="${source.dir}/ejb-tier"/>
+  <property name="client.source.dir" value="${source.dir}/rmiclients"/>
+
+  <!-- Directory for the generated source files (created by this script) -->
+  <property name="gen.source.dir" value="gen"/>
+
+  <!-- Directory for files that are going to be packaged (created by this script) -->
+  <property name="build.dir" value="build"/>
+
+  <!-- Directory for the final distributable files (created by this script) -->
+  <property name="dist.dir" value="dist"/>
+
+  <!-- Directory for the generated Javadoc documentation -->
+  <property name="javadoc.dir" value="docs"/>
+
+
+  <!-- Tool directories as defined by the environment variables -->
+  <property environment="env"/>
+  <property name="jboss.home" value="${env.JBOSS_HOME}"/>
+  <property name="xdoclet.home" value="${env.XDOCLET_HOME}"/>
+  <property name="junit.home" value="${env.JUNIT_HOME}"/>
+
+
+  <!-- Tool subdirectories -->
+  <property name="jboss.project.dir" value="${jboss.home}/server/default"/>
+  <property name="jboss.lib.dir" value="${jboss.project.dir}/lib"/>
+  <property name="jboss.deploy.dir" value="${jboss.project.dir}/deploy"/>
+
+
+  <!-- Classpath to compile our EJBs -->
+  <path id="server.classpath">
+    <pathelement location="${jboss.lib.dir}/jboss-j2ee.jar" />
+  </path>
+
+
+  <!-- Classpath to compile the client apps -->
+  <path id="client.classpath">
+    <pathelement location="${jboss.lib.dir}/jboss-j2ee.jar" />
+    <pathelement location="${junit.home}/junit.jar" />
+    <pathelement location="${dist.dir}/javatheaters-client.jar" />
+  </path>
+
+
+  <!-- Classpath to run XDoclet -->
+  <path id="xdoclet.classpath">
+    <pathelement location="${env.XDOCLET_HOME}/lib/xdoclet.jar" />
+    <pathelement location="${env.ANT_HOME}/lib/ant.jar" />
+    <pathelement location="${jboss.lib.dir}/log4j.jar" />
+    <pathelement location="src/ejb-tier" />
+  </path>
+
+
+  <!--
+    Classpath to run the jBoss Verifier. If you use a modified version
+    of standardjaws.xml, change the first pathelement below to the
+    directory where your custom standardjaws.xml is located.
+  -->
+  <path id="verifier.classpath">
+    <pathelement location="${jboss.project.dir}/conf" />
+    <pathelement location="${jboss.lib.dir}/jboss.jar" />
+    <pathelement location="${jboss.lib.dir}/jpl-util.jar" />
+    <pathelement location="${jboss.lib.dir}/jpl-pattern.jar" />
+    <pathelement location="${jboss.lib.dir}/log4j.jar" />
+    <pathelement location="${jboss.lib.dir}/jboss-j2ee.jar" />
+    <pathelement location="${jboss.home}/lib/jboss-system.jar" />
+    <pathelement location="${jboss.home}/lib/jboss-common.jar" />
+  </path>
+
+
+  <!-- Set of files that are going to be packaged in the ejb-jar -->
+  <patternset id="ejb-jar.files">
+    <include name="META-INF/*.xml"/>
+    <include name="**/*.class"/>
+  </patternset>
+
+
+  <!-- Set of files that are going to be packaged in the client-jar -->
+  <patternset id="client-jar.files">
+    <include name="**/*.class" />
+    <exclude name="**/Movie*.*" />
+    <exclude name="**/AutoCounter*.*" />
+    <exclude name="**/implementation/**/*.*" />
+  </patternset>
+
+
+  <!-- Creates the required build directories -->
+  <target name="prepare">
+    <mkdir dir="${gen.source.dir}"/>
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${dist.dir}"/>
+    <mkdir dir="${javadoc.dir}"/>
+  </target>
+
+
+  <target name="ejbdoclet_info" unless="ejbdoclet.already.run">
+    <echo level="info">
+---------------------------------------------------
+NOTE: When you run EJBDoclet on a clean project, it
+may generate a few warnings, because the Doclet engine
+can't find yet some of the classes that EJBDoclet is
+about to generate. These warnings are to be expected and
+can be ignored.
+---------------------------------------------------
+    </echo>
+  </target>
+
+  <target name="ejbdoclet" depends="prepare">
+    <available file="${gen.source.dir}/javatheater" property="ejbdoclet.already.run"/>
+    <antcall target="ejbdoclet_info"/>
+
+    <!-- Definition of the custom ejbdoclet task, used below -->
+    <taskdef name="ejbdoclet" classname="xdoclet.ejb.EjbDocletTask">
+      <classpath refid="xdoclet.classpath"/>
+    </taskdef>
+
+    <!-- Run EjbDoclet -->
+    <ejbdoclet
+      sourcepath="${ejb.source.dir};${gen.source.dir}"
+      destdir="${gen.source.dir}"
+      excludedtags="@version, @author"
+      ejbspec="2.0">
+
+      <fileset dir="${ejb.source.dir}">
+        <include name="**/*Bean.java" />
+      </fileset>
+
+      <classpath>
+        <path refid="server.classpath"/>
+        <path refid="xdoclet.classpath"/>
+      </classpath>
+
+      <deploymentdescriptor destdir="${gen.source.dir}/META-INF"/>
+      <homeinterface/>
+      <localhomeinterface/>
+      <remoteinterface/>
+      <localinterface/>
+      <entitycmp/>
+      <session/>
+      <jboss destdir="${gen.source.dir}/META-INF"/>
+    </ejbdoclet>
+  </target>
+
+
+  <!-- compiles the EJB source files into the build directory -->
+  <target name="compile-ejbs" depends="ejbdoclet">
+    <javac
+      destdir="${build.dir}"
+      includes="**/*.java"
+      classpathref="server.classpath"
+      debug="on"
+      deprecation="on"
+    >
+      <src path="${ejb.source.dir}"/>
+      <src path="${gen.source.dir}"/>
+    </javac>
+  </target>
+
+
+  <!-- Packages all required EJB files into the ejb-jar -->
+  <target name="ejb-jar" depends="compile-ejbs">
+    <copy todir="${build.dir}/META-INF">
+      <fileset dir="${gen.source.dir}/META-INF"/>
+    </copy>
+
+    <jar jarfile="${dist.dir}/${ejb-jar.filename}" basedir="${build.dir}">
+      <patternset refid="ejb-jar.files"/>
+    </jar>
+  </target>
+
+
+  <!-- Runs the JBoss verifier and checks the contents of the ejb-jar for EJB specification compliance -->
+  <target name="verify" depends="ejb-jar">
+    <java classname="org.jboss.verifier.Main" fork="true" failonerror="true">
+      <classpath refid="verifier.classpath"/>
+      <arg value="${dist.dir}/${ejb-jar.filename}"/>
+    </java>
+  </target>
+
+
+  <!-- Copies the ejb-jar to the JBoss deploy directory -->
+  <target name="deploy" depends="verify">
+    <copy file="${dist.dir}/${ejb-jar.filename}" todir="${jboss.deploy.dir}"/>
+  </target>
+
+
+  <!-- Creates the client jar  -->
+  <target name="client-jar" depends="compile-ejbs">
+    <jar jarfile="${dist.dir}/${client-jar.filename}" basedir="${build.dir}">
+      <patternset refid="client-jar.files"/>
+    </jar>
+  </target>
+
+
+  <!-- Compiles the RMI client applications and test -->
+  <target name="rmiclients" depends="client-jar">
+    <javac
+      srcdir="${client.source.dir}"
+      destdir="${build.dir}"
+      includes="**/*.java"
+      classpathref="client.classpath"
+      debug="on"
+      deprecation="on"
+    />
+  </target>
+
+
+  <target name="javadoc" depends="compile-ejbs, rmiclients">
+    <javadoc
+        packagenames="javatheater.*"
+        sourcepath="${ejb.source.dir};${gen.source.dir};${client.source.dir}"
+        destdir="${javadoc.dir}"
+        classpathref="server.classpath"
+        access="package"
+        windowtitle="Javatheater API Docs"
+    />
+  </target>
+
+  <!-- Deletes the ejb-jar from the JBoss deploy directory -->
+  <target name="undeploy">
+    <delete>
+      <fileset dir="${jboss.deploy.dir}" includes="${ejb-jar.filename}"/>
+    </delete>
+  </target>
+
+
+  <!-- Deletes all temporary build directories -->
+  <target name="clean">
+    <delete dir="${gen.source.dir}" failonerror="false"/>
+    <delete dir="${build.dir}" failonerror="false"/>
+    <delete dir="${dist.dir}" failonerror="false"/>
+    <delete dir="${javadoc.dir}" failonerror="false"/>
+    <antcall target="undeploy" />
+  </target>
+
+
+  <!-- Deploys EJBs and build the clients -->
+  <target name="all" depends="deploy, client-jar, rmiclients" />
+
+  <target name="help">
+    <echo level="info">
+This ant script compiles the Java source files and creates
+the ejb-jar and the client-jar for the movlist ejb application.
+
+The following targets are defined:
+
+* ant compile-ejb
+  Compiles all the EJB source files
+
+* ant ejb-jar
+  Creates the ejb-jar
+
+* ant client-jar
+  Creates the client-jar
+
+* ant ejbdoclet
+  Runs EjbDoclet to generate various EJB implementation/deployment files
+
+* ant verify
+  Runs the jBoss Verifier on the ejb-jar file
+
+* ant deploy
+  Compiles, jars and verifies the ejb-jar file; copies the ejb-jar
+  file in the jBoss deploy directory
+
+* ant undeploy
+  Deletes the ejb-jar file from the jBoss deploy directory
+
+* ant clean
+  Deletes the class files and jar files generated by the other targets
+
+* ant all
+  Compiles, creates the ejb-jar and the client-jar; verifies and then
+  deploys the ejb-jar file
+
+* ant | ant help
+  Displays this message
+    </echo>
+  </target>
+
+</project>

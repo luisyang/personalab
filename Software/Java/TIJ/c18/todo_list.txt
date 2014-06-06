@@ -1,0 +1,17 @@
+TO DO LIST:
+
+*   Create example01
+
+*   Rewrite example03/runclient.sh so that it uses environment variables and the project directories
+    __exactly__ like runclient.bat. Then copy the new runclient.sh in all subsequent examples
+
+*   Write example04/runtest.sh as above
+
+*   Replace all catch(Exception) clauses in the EJB implementations with catches for specific exceptions.
+    In other words, never use generic exceptions handlers in EJBs.
+
+*   For all examples, write test cases for __all__ methods of the beans in that specific
+    example
+
+*   Check that all session beans in tests and clients are disconnected using remove()
+    when finished

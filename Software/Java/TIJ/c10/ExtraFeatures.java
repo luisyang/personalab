@@ -1,0 +1,71 @@
+//: c10:ExtraFeatures.java
+// Further embellishment of exception classes.
+// From 'Thinking in Java, 3rd ed.' (c) Bruce Eckel 2002
+// www.BruceEckel.com. See copyright notice in CopyRight.txt.
+import com.bruceeckel.simpletest.*;
+
+class MyException2 extends Exception {
+  public MyException2() {}
+  public MyException2(String msg) {
+    super(msg);
+  }
+  public MyException2(String msg, int x) {
+    super(msg);
+    i = x;
+  }
+  public int val() { return i; }
+  private int i;
+}
+
+public class ExtraFeatures {
+  static Test monitor = new Test();
+  public static void f() throws MyException2 {
+    System.out.println(
+      "Throwing MyException2 from f()");
+    throw new MyException2();
+  }
+  public static void g() throws MyException2 {
+    System.out.println(
+      "Throwing MyException2 from g()");
+    throw new MyException2("Originated in g()");
+  }
+  public static void h() throws MyException2 {
+    System.out.println(
+      "Throwing MyException2 from h()");
+    throw new MyException2(
+      "Originated in h()", 47);
+  }
+  public static void main(String[] args) {
+    try {
+      f();
+    } catch(MyException2 e) {
+      e.printStackTrace(System.err);
+    }
+    try {
+      g();
+    } catch(MyException2 e) {
+      e.printStackTrace(System.err);
+    }
+    try {
+      h();
+    } catch(MyException2 e) {
+      e.printStackTrace(System.err);
+      System.err.println("e.val() = " + e.val());
+    }
+    monitor.expect(new String[] {
+      "Throwing MyException2 from f()",
+      "MyException2",
+      "\tat ExtraFeatures.f(Unknown Source)",
+      "\tat ExtraFeatures.main(Unknown Source)",
+      "Throwing MyException2 from g()",
+      "MyException2: Originated in g()",
+      "\tat ExtraFeatures.g(Unknown Source)",
+      "\tat ExtraFeatures.main(Unknown Source)",
+      "Throwing MyException2 from h()",
+      "MyException2: Originated in h()",
+      "\tat ExtraFeatures.h(Unknown Source)",
+      "\tat ExtraFeatures.main(Unknown Source)",
+      "e.val() = 47"
+    });
+  }
+} ///:~
