@@ -18,6 +18,13 @@
 每次修改，如果不add到暂存区，那就不会加入到commit中。
 
 ###3. .gitignore文件
+
+cat .gitignore
+
+*.[oa]
+
+*~
+
 >.gitignore顾名思义就是告诉git需要忽略的文件，这是一个很重要并且很实用的文件。一般我们写完代码后会执行编译、调试等操作，这期间会产生很多中间文件和可执行文件，这些都不是代码文件，是不需要git来管理的。我们在git status的时候会看到很多这样的文件，如果用git add -A来添加的话会把他们都加进去，而手动一个个添加的话也太麻烦了。这时我们就需要.gitignore了。比如一般c#的项目我的.gitignore是这样写的：
 
 >bin
@@ -53,7 +60,9 @@ git config  设置项目配置
 
 ###4. tag文件
 
-待补充
+列出现有标签的命令非常简单，直接运行 git tag 即可
+
+创建一个含附注类型的标签，用 -a 
 
 ###5. checkout fetch
 
@@ -73,3 +82,16 @@ ps：此时.file_cp.c.swp文件已经从暂存区域删除，但是仍在当前�
 
 
  git commit 加上-a 选项，Git 就会自动把所有已经跟踪过的文件暂存起来一并提交，从而跳过 git add 步骤：git commit -a -m ‘xxxx’
+
+
+###7.git config --list 检查已有的配置信息
+
+git log 查看修改日志
+
+###8.移除文件 GIT pro中文版 P22
+
+git rm 
+
+git rm --cached readme.txt
+
+删除文件与删除对文件的跟踪，两者之间的差别
