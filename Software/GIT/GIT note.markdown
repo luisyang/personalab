@@ -90,8 +90,50 @@ git log 查看修改日志
 
 ###8.移除文件 GIT pro中文版 P22
 
-git rm 
-
-git rm --cached readme.txt
+    git rm 
+    
+    git rm --cached readme.txt
 
 删除文件与删除对文件的跟踪，两者之间的差别
+
+
+###9.自动补全和命令别名 GIT pro中文版 P40
+
+    git config --global alias.co checkout
+
+
+##分支 GIT pro中文版 P44
+
+###1.新建分支
+
+    git branch testing
+
+###2.切换分支
+
+    git checkout testing
+
+###3.操作方法
+
+git checkout 并加上 -b 参数
+
+    git checkout -b iss53
+
+等价于
+    
+    git branch iss53
+    
+    git checkout iss53
+
+> 转换分支的时候最好保持一个清洁的工作区域
+
+    git branch -d hotfix
+
+删除已完成生命周期的分支
+
+###4.合并分支
+
+切换到master分支，然后用merge命令
+
+    git merge hotfix
+
+冲突的产生于解决
