@@ -18,7 +18,8 @@
 每次修改，如果不add到暂存区，那就不会加入到commit中。
 
 ###3. .gitignore文件
-
+vim .gitignore
+ZZ
 cat .gitignore
 
 *.[oa]
