@@ -138,3 +138,6 @@ git checkout 并加上 -b 参数
     git merge hotfix
 
 冲突的产生于解决
+
+###5.远程分支
+git fetch origin 来进行同步，从上面获取你尚未拥有的数据，更新你本地的数据库，然后把origin/master 的指针移到它最新的位置
