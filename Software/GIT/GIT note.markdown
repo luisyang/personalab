@@ -141,3 +141,13 @@ git checkout 并加上 -b 参数
 
 ###5.远程分支
 git fetch origin 来进行同步，从上面获取你尚未拥有的数据，更新你本地的数据库，然后把origin/master 的指针移到它最新的位置
+
+
+---
+##工具 GIT pro中文版 P127
+
+###1.改变提交
+
+    git commit --amend
+
+###2.用SHA 哈希值进行版本管理
