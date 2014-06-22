@@ -223,3 +223,6 @@ Jekyll 解析整个网站源代码后，会将最终的静态网站源代码放�
 
 ---
 ##[yihui](http://yihui.name/cn/2012/02/hello-jekyll/)
+
+---
+http://blog.csdn.net/lslvxy/article/details/14449299
