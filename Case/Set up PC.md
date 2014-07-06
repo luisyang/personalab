@@ -56,6 +56,10 @@ Markdown pad
 
 Notepad ++
 
+Foobar
+
+Mactype
+
 ---
 > 需配置
 
