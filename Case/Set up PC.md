@@ -56,10 +56,6 @@ Markdown pad
 
 Notepad ++
 
-Foobar
-
-Mactype
-
 ---
 > 需配置
 
@@ -81,3 +77,25 @@ ArcGIS
 Erdas
 
 Matlab
+
+---
+
+Python
+
+先安装Python 软件 2.7
+
+安装[easy install](https://pypi.python.org/pypi/setuptools#downloads) 软件
+
+设置环境变量PATH
+
+c:\python27;
+c:\python27\scripts;
+
+    easy_install xlrd	成功
+    easy_install nose	成功
+    easy_install atlas	成功
+
+   
+    easy_install numpy	未成功
+
+    easy_install pydelicious	未成功
