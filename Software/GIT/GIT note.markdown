@@ -102,8 +102,10 @@ git log 查看修改日志
 
     git config --global alias.co checkout
 
+---
 
 ##分支 GIT pro中文版 P44
+
 
 ###1.新建分支
 
@@ -151,3 +153,6 @@ git fetch origin 来进行同步，从上面获取你尚未拥有的数据，更
     git commit --amend
 
 ###2.用SHA 哈希值进行版本管理
+
+----
+
