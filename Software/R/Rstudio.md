@@ -1,5 +1,7 @@
 Integrated Development Environment (IDE)
 
+command-line interface (CLI)
+
 
 ![](http://img3.douban.com/view/photo/photo/public/p2190490961.jpg)
 
@@ -35,3 +37,38 @@ needs only ordered observations for the time index.
 ----
 
 Using the Code Editor to Write R Scripts
+
+---
+
+Commands can be combined on one line if
+separated by a semicolon and can extend over multiple lines. 
+
+
+---
+
+R has two commonly used options
+for assignment:  =and ←(the latter is preferred by most longtime R users). 
+
+    Alt + -
+
+---
+ Typing can be a chore, proper command syntax is essential, and the user needs to have intimate knowledge of the function and its arguments.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
