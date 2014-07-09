@@ -56,18 +56,56 @@ for assignment:  =and ←(the latter is preferred by most longtime R users).
 
 ---
 
+Keyboard Shortcuts
+
+![](http://img3.douban.com/view/photo/photo/public/p2190600631.jpg)
+
+![](http://img3.douban.com/view/photo/photo/public/p2190600633.jpg)
+
+---
+
+**Command History**
+
+RStudio keeps a stack of past commands
+and allows one to scroll through them easily. This can be done using the up and down
+arrow  keys.
+
+---
+
+For properly formatted text files, RStudio provides the Import Dataset toolbar button to open a dialog to initiate the process.
+
+---
+As such, it is important to plan a graphic
+prior to creating it—for example, computing the size of the coordinate space that will
+be needed.
+
+---
+
+we will use the roxygen2 package  to  document  our  package’s  functions.
+
+---
 
 
+Testing a package can involve loading the package, testing it, making desired changes,
+then reloading the package.
+
+----
+
+The devtoolspackage provides the  load_allfunction to reload the package without
+having to restart R. 
+
+----
+
+ R has the  data directory for including data in a package.
 
 
+---
 
+![](http://img3.douban.com/view/photo/photo/public/p2190619612.jpg)
 
+![](http://img3.douban.com/view/photo/photo/public/p2190619614.jpg)
 
-
-
-
-
-
+---
 
 
 
