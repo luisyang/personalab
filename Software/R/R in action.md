@@ -97,13 +97,69 @@ demo(Hershey)、demo(persp)和demo(image)
 
 ----
 
+按照个人要求的格式来创建含有研究信息的数据集，这是任何数据分析的第一步。在R中，这个任务包括以下两步：
+
+- 选择一种数据结构来存储数据；
+- 将数据输入或导入到这个数据结构中。
+
+数据集通常是由数据构成的一个矩形数组，行表示观测，列表示变量。
+
+---
+
+R中有许多用于存储数据的结构，包括标量、向量、数组、数据框和列表。
+
+![](http://img5.douban.com/view/photo/photo/public/p2190665636.jpg)
+
+---
+
+向量是用于存储数值型、字符型或逻辑型数据的一维数组。执行组合功能的函数c()可用来创建向量。
+
+---
+![](http://img3.douban.com/view/photo/photo/public/p2190739621.jpg)
+
+---
+
+Stat/Transfer（www.stattransfer.com）是一款可在34种数据格式之间作转换的独立应用程序，其中包括R中的数据格式（见图2-4）。
+
+使用第三方软件
+
+---
+![](http://img3.douban.com/view/photo/photo/public/p2190739965.jpg)
+
+![](http://img3.douban.com/view/photo/photo/public/p2190740503.jpg)
+
+---
+
+![](http://img3.douban.com/view/photo/photo/public/p2190744192.jpg)
+
+![](http://img3.douban.com/view/photo/photo/public/p2190744860.jpg)
+
+![](http://img3.douban.com/view/photo/photo/public/p2190745041.jpg)
 
 
+---
 
+在R中，可以通过颜色下标、颜色名称、十六进制的颜色值、RGB值或HSV值来指定颜色。举例来说，col=1、col="white"、col="#FFFFFF"、col=rgb(1,1,1)和col=hsv(0,0,1)都是表示白色的等价方式。函数rgb()可基于红—绿—蓝三色值生成颜色，而hsv()则基于色相—饱和度—亮度值来生成颜色。请参考这些函数的帮助以了解更多细节。
 
+[R中色彩的在线图表](http://research.stowers-institute.org/efg/R/Color/Chart)
 
+---
 
+[边界参数的完整指南](http://research.stowers-institute.org/efg/R/Graphics/Basics/mar-oma/ )
 
+    par
+
+---
+![](http://img5.douban.com/view/photo/photo/public/p2190751648.jpg)
+
+---
+
+在R中，缺失值以符号NA（Not Available，不可用）表示。不可能出现的值（例如，被0除的结果）通过符号NaN（Not a Number，非数值）来表示。
+
+na.rm=TRUE选项，可以在计算之前移除缺失值并使用剩余
+值进行计算：
+
+可以通过函数na.omit()移除所有含有缺失值的观测。na.omit()可以删除所有含有缺失数据的行。
 
 
 
