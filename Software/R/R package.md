@@ -1,3 +1,34 @@
+## 升级R版本后，更新Package ##
+
+1）在旧版本中的R中运行
+
+
+> --run in the old version of R
+
+setwd("C:/Temp/")  #注意要在C盘中新建Temp文件夹
+
+packages <- installed.packages()[,"Package"]
+
+save(packages, file="Rpackages")
+
+2）在新版本中的R运行
+
+> --run in the new version 
+
+setwd("C:/Temp/") 
+
+load("Rpackages") 
+
+for (p in setdiff(packages, installed.packages()[,"Package"])) 
+
+install.packages(p) 
+
+运行新版本将发现所有原有Package可以在新版中运行
+
+
+
+
+
 ---
 
 ## 必装的包 ##
@@ -67,15 +98,22 @@ SPSS数据集可以通过foreign包中的函数read.spss()导入到R中，也可
 
 --------
 
+    sqldf包
 
+可以使用sqldf()函数
+在数据框上使用SQL中的SELECT语句。
 
+---
 
+reshape包 是一套重构和整合数据集的绝妙的万能工具。
 
+---
 
+gplots
 
+-----
 
-
-
+doBy包和psych包也提供了分组计算描述性统计量的函数。
 
 
 
