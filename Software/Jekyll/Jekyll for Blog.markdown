@@ -226,3 +226,23 @@ Jekyll 解析整个网站源代码后，会将最终的静态网站源代码放�
 
 ---
 http://blog.csdn.net/lslvxy/article/details/14449299
+
+----
+
+[Jekyll Bootstrap](http://jekyllbootstrap.com/usage/jekyll-quick-start.html#)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
